@@ -6,7 +6,7 @@
 #    By: mikabuto <mikabuto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/15 15:14:52 by mikabuto          #+#    #+#              #
-#    Updated: 2021/11/08 21:05:09 by mikabuto         ###   ########.fr        #
+#    Updated: 2022/03/14 14:59:46 by mikabuto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ all : $(NAME)
 $(NAME) : $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
-%.o : %.c $(HEADER)
+%.o : %.c $(HEADER) Makefile
 	cc $(FLAGS) -c $< -o $@
 
 clean :

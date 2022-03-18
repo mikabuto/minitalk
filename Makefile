@@ -1,8 +1,20 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mikabuto <mikabuto@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/03/14 14:16:43 by mikabuto          #+#    #+#              #
+#    Updated: 2022/03/14 14:16:43 by mikabuto         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 S_NAME = server
 C_NAME = client
 
-S_SRC = server.c
-C_SRC = client.c
+S_SRC = server_mandatory.c
+C_SRC = client_mandatory.c
 
 S_SRC_BONUS = server_bonus.c
 C_SRC_BONUS = client_bonus.c
@@ -10,29 +22,33 @@ C_SRC_BONUS = client_bonus.c
 S_OBJ = $(S_SRC:.c=.o)
 C_OBJ = $(C_SRC:.c=.o)
 
+S_OBJ_BONUS = $(S_SRC_BONUS:.c=.o)
+C_OBJ_BONUS = $(C_SRC_BONUS:.c=.o)
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+LIBFT = libft.a
 
-all: $(S_NAME) $(C_NAME)
+all: $(LIBFT) $(S_NAME) $(C_NAME)
 
 bonus: 
-	make S_SRC="$(SRC_BONUS_C)" S_SRC="$(S_SRC_BONUS)" all
+	@make S_SRC="$(S_SRC_BONUS)" C_SRC="$(C_SRC_BONUS)" all
 
-$(S_NAME): $(S_OBJ) libft
+$(S_NAME): $(S_OBJ)
 	$(CC) -o $@ $< -Llibft -lft
 
-$(C_NAME): $(C_OBJ) libft
+$(C_NAME): $(C_OBJ)
 	$(CC) -o $@ $< -Llibft -lft
 
-%.o: %.c
-	$(CC) -c $(CFLAGS) $?
+%.o: %.c Makefile
+	$(CC) $(CFLAGS) -c $< -o $@
 
-libft:
-	make -C libft
+$(LIBFT):
+	@make -C libft
 
 clean:
-	rm -f $(S_OBJ) $(C_OBJ)
-	make -C libft clean
+	rm -f $(S_OBJ) $(C_OBJ) $(S_OBJ_BONUS) $(C_OBJ_BONUS)
+	@make -C libft clean
 	
 fclean: clean
 	rm -f $(S_NAME) $(C_NAME) libft/libft.a
